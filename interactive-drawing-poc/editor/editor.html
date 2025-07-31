@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinate Editor</title>
+    <link rel="stylesheet" href="editor.style.css">
+</head>
+<body>
+    <h1>SVG Coordinate Editor</h1>
+    <div class="navigation-buttons">
+        <a href="../index.html"><button>Go to Main Page</button></a>
+    </div>
+    <div class="editor-container">
+        <div class="controls">
+            <h2>1. Upload Image</h2>
+            <input type="file" id="image-loader" accept="image/*">
+            <div id="image-dimensions" class="dimensions-display"></div>
+            
+            <h2>2. Choose Shape</h2>
+            <div class="shape-selector">
+                <input type="radio" id="rect-mode" name="shape-mode" value="rect" checked>
+                <label for="rect-mode">Rectangle</label>
+                <input type="radio" id="circle-mode" name="shape-mode" value="circle">
+                <label for="circle-mode">Circle</label>
+                <input type="radio" id="polygon-mode" name="shape-mode" value="polygon">
+                <label for="polygon-mode">Polygon</label>
+            </div>
+            <button id="finish-polygon" disabled>Finish Polygon</button>
+            <button id="clear-drawing">Clear</button>
+        </div>
+
+        <div id="drawing-area" class="drawing-area">
+            <p>Upload an image to begin.</p>
+            <img id="uploaded-image" src="" alt="Uploaded drawing">
+            <svg id="drawing-svg"></svg>
+        </div>
+
+        <div class="output-area">
+            <h2>3. Get Coordinates</h2>
+            <textarea id="coords-output" readonly placeholder="Coordinates will appear here..."></textarea>
+            <button id="copy-coords">Copy to Clipboard</button>
+        </div>
+    </div>
+
+    <script src="editor.script.js"></script>
+</body>
+</html>

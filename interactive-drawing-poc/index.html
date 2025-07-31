@@ -1,0 +1,28 @@
+where<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Drawing POC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Interactive Drawing POC</h1>
+    <div class="navigation-buttons">
+        <a href="editor/editor.html"><button>Go to Editor</button></a>
+    </div>
+    <div id="image-dimensions-main" class="dimensions-display"></div>
+    <div class="container">
+        <div class="drawing-container">
+            <img src="images/coach.jpeg" id="main-drawing-image" alt="Train Coach Drawing">
+            <svg id="drawing-svg" xmlns="http://www.w3.org/2000/svg">
+                <!-- Clickable areas will be added here by JavaScript -->
+            </svg>
+        </div>
+        <div id="details-panel" class="details-panel">
+            <p>Click on a part to see its details.</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

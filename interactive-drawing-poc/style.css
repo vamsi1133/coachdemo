@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.navigation-buttons {
+    margin-bottom: 20px;
+}
+
+.navigation-buttons button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navigation-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.dimensions-display {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 15px;
+    padding: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.drawing-container {
+    position: relative;
+    flex: 3;
+    min-width: 600px;
+}
+
+.drawing-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.drawing-container svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.clickable-area {
+    fill: rgba(0, 255, 0, 0.0); /* Invisible but clickable */
+    stroke: blue;
+    stroke-width: 0;
+    cursor: pointer;
+    transition: fill 0.3s, stroke-width 0.3s;
+}
+
+.clickable-area:hover {
+    fill: rgba(0, 0, 255, 0.2); /* Light blue highlight on hover */
+}
+
+.clickable-area.highlighted {
+    fill: rgba(255, 255, 0, 0.5); /* Yellow highlight on click */
+    stroke-width: 2px;
+}
+
+.details-panel {
+    flex: 1;
+    min-width: 300px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.details-panel h2 {
+    margin-top: 0;
+    color: #0056b3;
+}
