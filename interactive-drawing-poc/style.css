@@ -35,7 +35,7 @@ h1 {
 }
 
 /* Toggle Switch Styles */
-.toggle-switch-container {
+.navigation-buttons .toggle-switch-container {
     display: flex;
     align-items: center;
     gap: 10px;
