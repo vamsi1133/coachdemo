@@ -22,7 +22,7 @@ This file provides the core HTML structure for the Interactive 2D Drawing Viewer
 
 **Purpose**
 
-The purpose of this file is to lay out the essential visual elements of the application. It defines the containers for the drawing, the SVG overlay, and the details panel where information about selected parts is displayed. It also links the necessary CSS for styling and the JavaScript for interactivity.
+The purpose of this file is to lay out the essential visual elements of the application. It defines the containers for the drawing, the SVG overlay, the details panel, and the jobs list. It also links the necessary CSS for styling and the JavaScript for interactivity.
 
 **Key Components**
 
@@ -36,7 +36,7 @@ The purpose of this file is to lay out the essential visual elements of the appl
     *   **`<h1>`:** A main heading for the page.
     *   **`<div class="navigation-buttons">`**: Contains a button (`<button>`) wrapped in an anchor tag (`<a>`) to navigate to the `editor.html` page.
     *   **`<div id="image-dimensions-main">`**: A placeholder element where `script.js` will display the dimensions of the loaded drawing.
-    *   **`<div class="container">`:** The main flex container that holds the two primary sections of the application: the drawing and the details panel.
+    *   **`<div class="container">`:** The main container that holds the drawing container and the details panel.
     *   **`<div class="drawing-container">`:**
         *   This is a relatively positioned container, which is essential for correctly layering the SVG on top of the image.
         *   **`<img id="main-drawing-image" ...>`:** The base image for the 2D drawing. It now has an `id` so that `script.js` can access it to read its dimensions.
@@ -47,6 +47,8 @@ The purpose of this file is to lay out the essential visual elements of the appl
     *   **`<div id="details-panel" ...>`:**
         *   This `div` acts as a placeholder for displaying information about the currently selected part.
         *   Its content is dynamically updated by `script.js`.
+    *   **`<div id="jobs-container" ...>`:**
+        *   This `div` contains a table that displays the list of jobs added by the user.
     *   **`<script src="script.js"></script>`:**
         *   This script tag, placed at the end of the `<body>`, loads and executes the JavaScript code that powers the application's interactivity.
 
@@ -71,9 +73,12 @@ The entire script is wrapped in a `DOMContentLoaded` event listener to ensure th
             *   For `shape: 'rect'`, the format is `"x1,y1,x2,y2"` (top-left and bottom-right corners).
             *   For `shape: 'circle'`, the format is `"cx,cy,r"` (center coordinates and radius).
             *   For `shape: 'polygon'`, the format is `"x1,y1 x2,y2 x3,y3..."` (a space-separated list of points).
+        *   `workingHours`: The number of hours required to work on the part.
+        *   `price`: The price of the part.
+        *   `subParts`: A list of sub-parts for the part.
 
 2.  **DOM Element References**
-    *   The script gets and stores references to the main DOM elements it needs to interact with: `svgContainer`, `detailsPanel`, and `mainImage` (the `<img>` element).
+    *   The script gets and stores references to the main DOM elements it needs to interact with: `svgContainer`, `detailsPanel`, `mainImage`, and `jobsTableBody`.
 
 3.  **Core Functions**
     *   **`initializeApp()`**: This is the new entry point for the application's logic. Its job is to ensure the coordinate system is set up correctly *before* drawing the shapes. It waits for the main image to fully load, then gets its `naturalWidth` and `naturalHeight`, displays them on the page, and dynamically sets the SVG `viewBox` attribute to match those dimensions. Only then does it proceed to call `createShape` for each part.
@@ -82,10 +87,19 @@ The entire script is wrapped in a `DOMContentLoaded` event listener to ensure th
         *   This function's core logic is the same: it takes a `part` object, parses its `coords` string based on its `shape`, creates the corresponding SVG element, and appends it to the container.
 
     *   **`updateDetails(partId)`**: 
-        *   This function's role is unchanged. It finds a part by its ID and updates the details panel.
+        *   This function finds a part by its ID and updates the details panel with the part's name, description, working hours, price, and sub-parts. It also adds an "Add Job" button.
 
     *   **`handleSvgClick(event)`**: 
-        *   This function's role is unchanged. It manages the highlighting of shapes and calls `updateDetails`.
+        *   This function manages the highlighting of shapes and calls `updateDetails`.
+
+    *   **`addJobToList(part)`**: 
+        *   This function adds a job to the `jobs` array and calls `renderJobsTable`.
+
+    *   **`removeJob(partId)`**: 
+        *   This function removes a job from the `jobs` array and calls `renderJobsTable`.
+
+    *   **`renderJobsTable()`**: 
+        *   This function renders the jobs table with the current list of jobs.
 
 4.  **Initialization Logic**
     *   The initialization process now consists of a single call to `initializeApp()`.
@@ -100,7 +114,7 @@ This file contains all the CSS rules for styling the Interactive 2D Drawing View
 #### General Body and Layout
 
 *   **`body`**: Sets up the basic page font, a light background color, and uses Flexbox (`display: flex`) to center the main content on the page.
-*   **`.container`**: This is the main content block that holds both the drawing and the details panel. It uses `display: flex` to arrange its children side-by-side and `flex-wrap: wrap` to ensure responsiveness on smaller screens.
+*   **`.container`**: This is the main content block that holds the drawing container and the details panel. It uses `display: flex` and `flex-direction: column` to stack the items vertically.
 
 #### Drawing Container and Overlay
 
@@ -108,7 +122,6 @@ This is the most critical part of the CSS.
 
 *   **`.drawing-container`**: 
     *   It is set to `position: relative`. This is the anchor for the absolute positioning of the SVG overlay.
-    *   It is a flex item that takes up more space (`flex: 3`) than the details panel.
 *   **`.drawing-container img`**: Ensures the image is responsive (`width: 100%`) and behaves like a block element.
 *   **`.drawing-container svg`**: 
     *   This rule is essential for the core functionality. `position: absolute` lifts the SVG out of the normal document flow and places it relative to the `.drawing-container`.
@@ -132,10 +145,16 @@ This is the most critical part of the CSS.
 #### Details Panel
 
 *   **`.details-panel`**: 
-    *   Styles the box on the right-hand side.
-    *   It is a flex item (`flex: 1`) that takes up less space than the drawing.
+    *   Styles the box that displays the details of the selected part.
     *   It has basic styling for background color, border, padding, and a subtle shadow to make it look like a distinct card.
 *   **`.details-panel h2`**: Styles the title within the details panel.
+
+#### Jobs Container
+
+*   **`.jobs-container`**: 
+    *   Styles the container for the jobs list table.
+*   **`#jobs-table`**: 
+    *   Styles the jobs list table.
 
 ## Coordinate Editor (`interactive-drawing-poc/editor/editor.html`, `editor.script.js`, `editor.style.css`)
 

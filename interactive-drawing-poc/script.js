@@ -6,35 +6,50 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Passenger Window 1',
             description: 'Standard passenger viewing window, double-paned for insulation.',
             shape: 'rect',
-            coords: '200,110,249,138'
+            coords: '200,110,249,138',
+            workingHours: 2,
+            price: 150,
+            subParts: ['Glass Pane', 'Sealant', 'Frame']
         },
         {
             id: 'part-window-2',
             name: 'Passenger Window 2',
             description: 'Standard passenger viewing window, double-paned for insulation.',
             shape: 'rect',
-            coords: '260,111,308,139'
+            coords: '260,111,308,139',
+            workingHours: 2,
+            price: 150,
+            subParts: ['Glass Pane', 'Sealant', 'Frame']
         },
         {
             id: 'part-window-3',
             name: 'Passenger Window 3',
             description: 'Standard passenger viewing window, double-paned for insulation.',
             shape: 'rect',
-            coords: '320,109,371,140'
+            coords: '320,109,371,140',
+            workingHours: 2,
+            price: 150,
+            subParts: ['Glass Pane', 'Sealant', 'Frame']
         },
         {
             id: 'part-window-4',
             name: 'Passenger Window 4',
             description: 'Standard passenger viewing window, double-paned for insulation.',
             shape: 'rect',
-            coords: '380,110,430,138'
+            coords: '380,110,430,138',
+            workingHours: 2,
+            price: 150,
+            subParts: ['Glass Pane', 'Sealant', 'Frame']
         },
         {
             id: 'wheel-1',
-            name: 'Front Wheel',
+            name: 'Front Wheel Assembly',
             description: 'The front wheel of the train coach, essential for movement.',
             shape: 'circle',
-            coords: '289,203,16'
+            coords: '289,203,16',
+            workingHours: 8,
+            price: 1200,
+            subParts: ['Wheel', 'Axle', 'Brake System', 'Bearings']
         },
     ];
 
@@ -42,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const svgContainer = document.getElementById('drawing-svg');
     const detailsPanel = document.getElementById('details-panel');
     const mainImage = document.getElementById('main-drawing-image');
+    const jobsTableBody = document.querySelector('#jobs-table tbody');
+
+    let jobs = [];
 
     /**
      * Sets the SVG viewBox to match the image dimensions and then populates the shapes.
@@ -114,10 +132,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateDetails(partId) {
         const part = partsData.find(p => p.id === partId);
         if (part) {
+            const subPartsList = part.subParts.map(subPart => `<li>${subPart}</li>`).join('');
             detailsPanel.innerHTML = `
                 <h2>${part.name}</h2>
                 <p>${part.description}</p>
+                <p><strong>Working Hours:</strong> ${part.workingHours}</p>
+                <p><strong>Price:</strong> $${part.price}</p>
+                <p><strong>Sub-Parts:</strong></p>
+                <ul>${subPartsList}</ul>
+                <button id="add-job-btn" data-part-id="${part.id}">Add Job</button>
             `;
+            document.getElementById('add-job-btn').addEventListener('click', () => addJobToList(part));
         } else {
             detailsPanel.innerHTML = '<p>Click on a part to see its details.</p>';
         }
@@ -140,6 +165,61 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             updateDetails(null);
         }
+    }
+
+    /**
+     * Adds a job to the list and updates the table.
+     * @param {object} part - The part data object.
+     */
+    function addJobToList(part) {
+        const jobExists = jobs.some(job => job.id === part.id);
+        if (jobExists) {
+            alert('This job is already in the list.');
+            return;
+        }
+        const job = { 
+            id: part.id, 
+            name: part.name, 
+            workingHours: part.workingHours, 
+            price: part.price, 
+            subParts: part.subParts 
+        };
+        jobs.push(job);
+        renderJobsTable();
+    }
+
+    /**
+     * Removes a job from the list and updates the table.
+     * @param {string} partId - The ID of the part to remove.
+     */
+    function removeJob(partId) {
+        jobs = jobs.filter(job => job.id !== partId);
+        renderJobsTable();
+    }
+
+    /**
+     * Renders the jobs table.
+     */
+    function renderJobsTable() {
+        jobsTableBody.innerHTML = '';
+        jobs.forEach(job => {
+            const subPartsList = job.subParts.map(subPart => `<li>${subPart}</li>`).join('');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${job.name}</td>
+                <td>${job.workingHours}</td>
+                <td>$${job.price}</td>
+                <td><ul>${subPartsList}</ul></td>
+                <td><button class="cancel-job-btn" data-part-id="${job.id}">Cancel</button></td>
+            `;
+            jobsTableBody.appendChild(row);
+        });
+
+        document.querySelectorAll('.cancel-job-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                removeJob(e.target.dataset.partId);
+            });
+        });
     }
 
     // --- Initialization ---
