@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Drawing POC</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
+    <h1>Interactive Drawing POC</h1>
     <div class="navigation-buttons">
-        <a href="editor/editor.html"><button>Go to Editor</button></a>
+        <a href="./editor/editor.html"><button>Go to Editor</button></a>
         <div class="toggle-switch-container">
             <span class="toggle-label">Show All Parts</span>
             <label class="switch">
@@ -22,7 +23,7 @@
     <div id="image-dimensions-main" class="dimensions-display"></div>
     <div class="container">
         <div class="drawing-container">
-            <img src="images/coach.jpeg" id="main-drawing-image" alt="Train Coach Drawing">
+            <img src="./images/coach.jpeg" id="main-drawing-image" alt="Train Coach Drawing">
             <svg id="drawing-svg" xmlns="http://www.w3.org/2000/svg">
                 <!-- Clickable areas will be added here by JavaScript -->
             </svg>
@@ -48,7 +49,7 @@
             </tbody>
         </table>
     </div>
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 </body>
 
 </html>
