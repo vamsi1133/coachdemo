@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Front Wheel Assembly',
             description: 'The front wheel of the train coach, essential for movement.',
             shape: 'circle',
-            coords: '289,203,16',
+            coords: '288,220,17',
             workingHours: 8,
             price: 1200,
             subParts: ['Wheel', 'Axle', 'Brake System', 'Bearings']
@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailsPanel = document.getElementById('details-panel');
     const mainImage = document.getElementById('main-drawing-image');
     const jobsTableBody = document.querySelector('#jobs-table tbody');
+    const togglePartsSwitch = document.getElementById('toggle-parts-switch');
 
     let jobs = [];
 
@@ -177,12 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('This job is already in the list.');
             return;
         }
-        const job = { 
-            id: part.id, 
-            name: part.name, 
-            workingHours: part.workingHours, 
-            price: part.price, 
-            subParts: part.subParts 
+        const job = {
+            id: part.id,
+            name: part.name,
+            workingHours: part.workingHours,
+            price: part.price,
+            subParts: part.subParts
         };
         jobs.push(job);
         renderJobsTable();
@@ -225,4 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initialization ---
     initializeApp();
     svgContainer.addEventListener('click', handleSvgClick);
+    togglePartsSwitch.addEventListener('change', () => {
+        svgContainer.classList.toggle('show-parts', togglePartsSwitch.checked);
+    });
 });

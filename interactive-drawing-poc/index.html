@@ -1,15 +1,23 @@
-where<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Drawing POC</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Interactive Drawing POC</h1>
     <div class="navigation-buttons">
         <a href="editor/editor.html"><button>Go to Editor</button></a>
+        <div class="toggle-switch-container">
+            <span class="toggle-label">Show All Parts</span>
+            <label class="switch">
+                <input type="checkbox" id="toggle-parts-switch">
+                <span class="slider round"></span>
+            </label>
+        </div>
     </div>
     <div id="image-dimensions-main" class="dimensions-display"></div>
     <div class="container">
@@ -42,4 +50,5 @@ where<!DOCTYPE html>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
